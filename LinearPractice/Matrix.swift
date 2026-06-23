@@ -42,9 +42,9 @@ class MatrixGenerator {
     
     func generate(row1: Int, col1: Int, row2: Int, col2: Int, type: CalculateType) {
         var matrix: [[Int]] = []
-        for i in 0..<row1 {
+        for _ in 0..<row1 {
             var row: [Int] = []
-            for j in 0..<col1 {
+            for _ in 0..<col1 {
                 row.append(Int.random(in: 0...10))
             }
             matrix.append(row)
@@ -141,4 +141,18 @@ class MatrixGenerator {
         }
         matrixAnswer = .init(rowDim: matrix1.rowDim, colDim: matrix1.colDim, matrix: matrix)
     }
+    
+    func checkAnswer() -> Bool{
+        if let ans = Int(ansString) {
+            if ans == matrixAnswer.matrix[answerPointX][answerPointY] {
+                return true
+            } else {
+                return false
+            }
+        } else {
+            return false
+        }
+    }
+    
+
 }

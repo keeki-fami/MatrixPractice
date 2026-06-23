@@ -84,6 +84,7 @@ struct ContentView: View {
                 VStack {
                     HStack {
                         Button(action: {
+                            generator.ansString.append("1")
                             print("1")
                         } ,label: {
                             ZStack {
@@ -94,7 +95,7 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("2")
+                            generator.ansString.append("2")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -104,7 +105,7 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("3")
+                            generator.ansString.append("3")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -114,7 +115,9 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("<")
+                            if !generator.ansString.isEmpty {
+                                generator.ansString.removeLast()
+                            }
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -126,7 +129,7 @@ struct ContentView: View {
                     }
                     HStack {
                         Button(action: {
-                            print("4")
+                            generator.ansString.append("4")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -136,7 +139,7 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("5")
+                            generator.ansString.append("5")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -146,7 +149,7 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("6")
+                            generator.ansString.append("6")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -156,7 +159,9 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("-")
+                            if generator.ansString.isEmpty {
+                                generator.ansString.append("-")
+                            }
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -168,7 +173,7 @@ struct ContentView: View {
                     }
                     HStack {
                         Button(action: {
-                            print("7")
+                            generator.ansString.append("7")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -178,7 +183,7 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("8")
+                            generator.ansString.append("8")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -188,7 +193,7 @@ struct ContentView: View {
                         })
                         .buttonStyle(NumberButtonStyle())
                         Button(action: {
-                            print("9")
+                            generator.ansString.append("9")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -204,7 +209,9 @@ struct ContentView: View {
                         RoundedRectangle(cornerRadius: 5)
                             .fill(Color(red: 217/255, green: 217/255, blue: 217/255))
                         Button(action: {
-                            print("0")
+                            if !generator.ansString.isEmpty {
+                                generator.ansString.append("0")
+                            }
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -219,7 +226,14 @@ struct ContentView: View {
                             .fill(Color(red: 217/255, green: 217/255, blue: 217/255))
                     }
                     Button(action: {
-                        
+                        let result = generator.checkAnswer()
+                        if result {
+                            generator.combo += 1
+                            generator.ansString.removeAll()
+                            generator.generate(row1: 3, col1: 3, row2: 3, col2: 3, type: .add)
+                        } else {
+                            generator.ansString.removeAll()
+                        }
                     } ,label: {
                         ZStack {
                             Rectangle()
