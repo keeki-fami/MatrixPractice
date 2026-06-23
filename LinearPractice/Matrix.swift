@@ -38,6 +38,7 @@ class MatrixGenerator {
     var answerPointX: Int = 0
     var answerPointY: Int = 0
     var combo: Int = 0
+    var ansString: String = ""
     
     func generate(row1: Int, col1: Int, row2: Int, col2: Int, type: CalculateType) {
         var matrix: [[Int]] = []
@@ -51,9 +52,9 @@ class MatrixGenerator {
         matrix1 = Matrix(rowDim: row1, colDim: col1, matrix: matrix)
         
         matrix = []
-        for i in 0..<row1 {
+        for _ in 0..<row1 {
             var row: [Int] = []
-            for j in 0..<col1 {
+            for _ in 0..<col1 {
                 row.append(Int.random(in: 0...10))
             }
             matrix.append(row)
@@ -127,14 +128,17 @@ class MatrixGenerator {
         let col = matrix2.colDim
         
         var matrix: [[Int]] = []
-        for i in 0..<matrix1.rowDim {
+        for i in 0..<row {
             var row: [Int] = []
-            for j in 0..<matrix1.colDim {
-                row.append(matrix1.matrix[i][j] - matrix2.matrix[i][j])
+            for j in 0..<col {
+                var num = 0
+                for k in 0..<matrix1.colDim {
+                    num += matrix1.matrix[i][k] * matrix2.matrix[k][j]
+                }
+                row.append(num)
             }
             matrix.append(row)
         }
-        
         matrixAnswer = .init(rowDim: matrix1.rowDim, colDim: matrix1.colDim, matrix: matrix)
     }
 }
