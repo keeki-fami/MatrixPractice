@@ -7,79 +7,111 @@
 
 import SwiftUI
 
+extension Array {
+    subscript (safe index: Index) -> Element? {
+        indices.contains(index) ? self[index] : nil
+    }
+}
+
 struct ContentView: View {
     @State var generator = MatrixGenerator()
     var body: some View {
         NavigationStack {
             VStack {
-//                Rectangle()
-//                    .fill(.gray)
-//                    .frame(maxWidth: .infinity, maxHeight: 100)
-//                    .overlay(alignment: .bottom) {
-//                        Text("Linear")
-//                    }
-//                    .overlay(alignment: .bottomTrailing) {
-//                        Text("\(generator.combo)combo")
-//                    }
-//                    .ignoresSafeArea()
-                
-                HStack {
-                    if !generator.matrix1.matrix.isEmpty {
-                        LazyVStack {
-                            ForEach(0..<generator.matrix1.rowDim, id: \.self) { i in
-                                HStack {
-                                    ForEach(generator.matrix1.matrix[i], id: \.self) { val in
-                                        Text("\(val)")
-                                            .frame(width: 20, height: 20)
+                Group {
+                    Group {
+                        VStack (alignment: .leading){
+                            HStack {
+                                if !generator.matrixset.matrix1.matrix.isEmpty {
+                                    VStack {
+                                        ForEach(generator.matrixset.matrix1.matrix, id: \.self) { matrix in
+                                            HStack {
+                                                ForEach(matrix, id: \.self) { num in
+                                                    Text("\(num.value)")
+                                                        .frame(width: 30, height: 30)
+                                                }
+                                            }
+                                        }
                                     }
+                                    .padding()
                                 }
-                            }
-                        }
-                    }
-                    if generator.calculateType == .add {
-                        Text("+")
-                    } else if generator.calculateType == .sub {
-                        Text("-")
-                    } else {
-                        Text("*")
-                    }
-                    if !generator.matrix2.matrix.isEmpty {
-                        LazyVStack {
-                            ForEach(0..<generator.matrix2.rowDim, id: \.self) { i in
-                                HStack {
-                                    ForEach(generator.matrix2.matrix[i], id: \.self) { val in
-                                        Text("\(val)")
-                                            .frame(width: 20, height: 20)
-                                    }
+                                if generator.matrixset.calculateType == .add {
+                                    Text("+")
+                                } else if generator.matrixset.calculateType == .sub {
+                                    Text("-")
+                                } else {
+                                    Text("*")
                                 }
-                            }
-                        }
-                    }
-                    Text("=")
-                    if !generator.matrixAnswer.matrix.isEmpty {
-                        LazyVStack {
-                            ForEach(0..<generator.matrixAnswer.rowDim, id: \.self) { i in
-                                HStack {
-                                    ForEach(0..<generator.matrixAnswer.colDim, id: \.self) { j in
-                                        if generator.answerPointX == i && generator.answerPointY == j {
-                                            Text("?")
-                                                .frame(width: 20, height: 20)
-                                        } else {
-                                            Text("\(generator.matrixAnswer.matrix[i][j])")
-                                                .frame(width: 20, height: 20)
+                                
+                                VStack {
+                                    ForEach(generator.matrixset.matrix2.matrix, id: \.self) { matrix in
+                                        
+                                        HStack {
+                                            ForEach(matrix, id: \.self) { num in
+                                                Text("\(num.value)")
+                                                    .frame(width: 30, height: 30)
+                                            }
                                         }
                                     }
                                     
                                 }
+                                .padding()
                             }
+                            HStack {
+                                Text("=")
+                                if !generator.matrixset.matrixAnswer.matrix.isEmpty {
+                                    VStack {
+                                        ForEach(generator.matrixset.matrixAnswer.matrix.indices, id: \.self) { i in
+                                            HStack {
+                                                ForEach(0..<generator.matrixset.matrixAnswer.colDim, id: \.self) { j in
+                                                    if generator.matrixset.answerPointX == i && generator.matrixset.answerPointY == j {
+                                                        Text("?")
+                                                            .frame(width: 30, height: 30)
+                                                    } else {
+                                                        if let answerrow = generator.matrixset.matrixAnswer.matrix[safe: i], let answer = answerrow[safe: j] {
+                                                            Text("\(answer.value)")
+                                                                .frame(width: 30, height: 30)
+                                                        } else {
+                                                            Text("?")
+                                                                .frame(width: 30, height: 30)
+                                                        }
+                                                        
+                                                    }
+                                                }
+                                                
+                                            }
+                                        }
+                                    }
+                                    .padding()
+                                }
+                            }
+                            
                         }
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
                     }
                 }
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .transition(.opacity)
                 HStack {
                     Text("? = ")
                     Text("\(generator.ansString.isEmpty ? "   " : generator.ansString)")
                         .background(Color(red: 217/255, green: 217/255, blue: 217/255))
+                }
+                .keyframeAnimator(initialValue: 0.0, trigger: generator.checkAnimation) { content, value in
+                    content.offset(x: value)
+                } keyframes: { _ in
+                    KeyframeTrack {
+                        MoveKeyframe(10.0)
+                        LinearKeyframe(-10.0, duration: 0.1)
+                        LinearKeyframe(5.0, duration: 0.1)
+                        LinearKeyframe(-5.0, duration: 0.1)
+                        LinearKeyframe(2.0, duration: 0.1)
+                        LinearKeyframe(-2.0, duration: 0.1)
+                        LinearKeyframe(1.0, duration: 0.1)
+                        LinearKeyframe(-1.0, duration: 0.1)
+                        LinearKeyframe(0.5, duration: 0.1)
+                        LinearKeyframe(-0.5, duration: 0.1)
+                    }
+                    
                 }
                 VStack {
                     HStack {
@@ -209,9 +241,7 @@ struct ContentView: View {
                         RoundedRectangle(cornerRadius: 5)
                             .fill(Color(red: 217/255, green: 217/255, blue: 217/255))
                         Button(action: {
-                            if !generator.ansString.isEmpty {
-                                generator.ansString.append("0")
-                            }
+                            generator.ansString.append("0")
                         } ,label: {
                             ZStack {
                                 Rectangle()
@@ -228,9 +258,11 @@ struct ContentView: View {
                     Button(action: {
                         let result = generator.checkAnswer()
                         if result {
-                            generator.combo += 1
+                            withAnimation {
+                                generator.combo += 1
+                            }
                             generator.ansString.removeAll()
-                            generator.generate(row1: 3, col1: 3, row2: 3, col2: 3, type: .add)
+                            generator.generate()
                         } else {
                             generator.ansString.removeAll()
                         }
@@ -248,15 +280,16 @@ struct ContentView: View {
                 .background(Color(red: 217/255, green: 217/255, blue: 217/255, opacity: 0.5))
             }
             .onAppear() {
-                generator.generate(row1: 3, col1: 3, row2: 3, col2: 3, type: .add)
+                generator.generate()
             }
-//            .navigationTitle("Matrix Practice")
-//            .navigationBarTitleDisplayMode(.inline)
+            //            .navigationTitle("Matrix Practice")
+            //            .navigationBarTitleDisplayMode(.inline)
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(alignment: .bottom) {
                         Text("\(generator.combo)")
                             .font(.custom("", size: 30))
+                            .contentTransition(.numericText(value: Double(generator.combo)))
                         Text("combo")
                     }
                 }
@@ -296,5 +329,5 @@ struct buttonTest: View {
 
 #Preview {
     ContentView()
-//    buttonTest()
+    //    buttonTest()
 }
