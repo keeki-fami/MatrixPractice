@@ -7,12 +7,6 @@
 
 import SwiftUI
 
-struct MatrixView: View {
-    
-    var body: some View {
-        
-    }
-}
 
 enum CalculateType {
     case add
@@ -50,11 +44,15 @@ class MatrixGenerator {
 //    var matrixAnswer: Matrix = .init()
 //    var calculateType: CalculateType = .add
     var matrixset: MatrixSet = .init()
-    var answerPointX: Int = 0
-    var answerPointY: Int = 0
+//    var answerPointX: Int = 0
+//    var answerPointY: Int = 0
     var combo: Int = 0
     var ansString: String = ""
     var checkAnimation = false
+    
+    init() {
+        self.generate()
+    }
     
     func generate() {
         
