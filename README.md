@@ -40,7 +40,7 @@ open MatrixPractice.xcodeproj
 
 ## Requirement
 
-* iOS: 18.0+
+* iOS: 26.5+
 
 ## Tech Stack
 
