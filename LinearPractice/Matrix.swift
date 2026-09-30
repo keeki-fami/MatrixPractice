@@ -49,6 +49,7 @@ class MatrixGenerator {
     var combo: Int = 0
     var ansString: String = ""
     var checkAnimation = false
+    var successCounter = 0
     
     init() {
         self.generate()
@@ -241,6 +242,7 @@ class MatrixGenerator {
         if let ans = Int(ansString) {
             if ans == matrixset.matrixAnswer.matrix[x][y].value {
                 print(ans)
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
                 return true
             } else {
                 checkAnimation.toggle()

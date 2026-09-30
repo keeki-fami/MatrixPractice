@@ -24,7 +24,7 @@ struct KeyBoard: View {
     @AppStorage("failure") var failure: Int = 0
     @AppStorage("success") var success: Int = 0
     @AppStorage("combo") var combo_store: Int = 0
-    @Bindable var generator: MatrixGenerator
+    var generator: MatrixGenerator
     enum KeyType: Hashable {
         case number(String)
         case minus
@@ -96,7 +96,9 @@ struct KeyBoard: View {
     func handleCheckAnswer(result: Bool) {
         generator.ansString = ""
         if result {
-            generator.combo += 1
+            withAnimation {
+                generator.combo += 1
+            }
             combo_store = generator.combo
             success += 1
             generator.generate()
@@ -104,8 +106,8 @@ struct KeyBoard: View {
             failure += 1
             combo_store = 0
             generator.combo = 0
-            generator.checkAnimation.toggle()
             generator.ansString = ""
+//            generator.checkAnimation.toggle()
         }
     }
     

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AppVersionMonitorSwiftUI
 
 extension Array {
     subscript (safe index: Index) -> Element? {
@@ -14,8 +15,9 @@ extension Array {
 }
 
 struct ContentView: View {
-    @State var generator = MatrixGenerator()
+    var generator = MatrixGenerator()
     @State var text = ""
+    @State var updateAlert = false
     @AppStorage("failure") var failure: Int = 0
     @AppStorage("success") var success: Int = 0
     @AppStorage("combo") var combo_store: Int = 0
@@ -81,6 +83,41 @@ struct ContentView: View {
                 .transition(.opacity)
                 
                 KeyBoard(generator: generator)
+            }
+            .alert(
+                "最新版があります",
+                isPresented: $updateAlert
+            ) {
+                Button(role: .cancel) {
+                    
+                } label : {
+                    Text("キャンセル")
+                }
+                Button(role: .confirm) {
+                    if let url = URL(string: "https://apps.apple.com/jp/app/%E7%84%A1%E9%99%90%E8%A1%8C%E5%88%97%E8%A8%88%E7%AE%97/id6785983550") {
+                        if UIApplication.shared.canOpenURL(url) {
+                            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                            print("成功")
+                        } else {
+                            print("失敗1")
+                        }
+                    } else {
+                        print("失敗2")
+                    }
+                } label: {
+                    Text("AppStoreに移動")
+                }
+            } message: {
+                Text("AppStoreに移動して最新版をインストールします")
+            }
+            .appVersionMonitor(id: 6785983550) { status in
+                switch status {
+                case .updateAvailable:
+                    updateAlert = true
+                default:
+                    updateAlert = false
+                }
+                
             }
             .onAppear() {
                 generator.combo = combo_store

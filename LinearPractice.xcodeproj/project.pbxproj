@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		94AE78742FF8FAD100FF3610 /* AppVersionMonitorSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 94AE78732FF8FAD100FF3610 /* AppVersionMonitorSwiftUI */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		94A12F9F2FE98E1E00CB341C /* LinearPractice.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LinearPractice.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -23,6 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94AE78742FF8FAD100FF3610 /* AppVersionMonitorSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -65,6 +70,7 @@
 			);
 			name = LinearPractice;
 			packageProductDependencies = (
+				94AE78732FF8FAD100FF3610 /* AppVersionMonitorSwiftUI */,
 			);
 			productName = LinearPractice;
 			productReference = 94A12F9F2FE98E1E00CB341C /* LinearPractice.app */;
@@ -94,6 +100,9 @@
 			);
 			mainGroup = 94A12F962FE98E1E00CB341C;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				94AE78722FF8FAD100FF3610 /* XCRemoteSwiftPackageReference "AppVersionMonitorSwiftUI" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 94A12FA02FE98E1E00CB341C /* Products */;
 			projectDirPath = "";
@@ -252,7 +261,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LMUVG7YFCW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -266,7 +275,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TowaSakurada.LinearPractice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -288,7 +297,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_TEAM = LMUVG7YFCW;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -302,7 +311,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.0.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.TowaSakurada.LinearPractice;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -340,6 +349,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		94AE78722FF8FAD100FF3610 /* XCRemoteSwiftPackageReference "AppVersionMonitorSwiftUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SNQ-2001/AppVersionMonitorSwiftUI";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		94AE78732FF8FAD100FF3610 /* AppVersionMonitorSwiftUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 94AE78722FF8FAD100FF3610 /* XCRemoteSwiftPackageReference "AppVersionMonitorSwiftUI" */;
+			productName = AppVersionMonitorSwiftUI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 94A12F972FE98E1E00CB341C /* Project object */;
 }
