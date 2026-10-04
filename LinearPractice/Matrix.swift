@@ -75,8 +75,8 @@ class MatrixGenerator {
             calculatetype = .mul
         }
         
-        let num1 = Int.random(in: 1...4)
-        let num2 = Int.random(in: 1...4)
+        let num1 = Int.random(in: 1...3)
+        let num2 = Int.random(in: 1...3)
         
         if calculatetype == .add || calculatetype == .sub {
             row1 = num1

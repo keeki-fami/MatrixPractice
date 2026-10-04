@@ -1,0 +1,104 @@
+//
+//  GameCenterManager.swift
+//  LinearPractice
+//  
+//  Created by keeki-fami on 2026/10/04
+//  
+//
+
+
+import SwiftUI
+import GameKit
+import Foundation
+
+
+@Observable
+final class GameCenterManager: NSObject {
+    
+    
+    static let shared = GameCenterManager()
+    private override init() {}
+    
+    
+    var error: Error?
+    private(set) var isAuthenticated = false
+    
+    func initializeLocalPlayer() {
+        GKLocalPlayer.local.authenticateHandler = { viewController, error in
+            
+            if let viewController = viewController {
+                self.present(viewController)
+                print("OK")
+                return
+            }
+            
+            if let error = error {
+                print("error: \(error.localizedDescription)")
+            }
+            
+            self.isAuthenticated = GKLocalPlayer.local.isAuthenticated
+            
+            if self.isAuthenticated {
+//                GKAccessPoint.shared.location = .topTrailing
+                GKAccessPoint.shared.isActive = false
+                print("GameCenter Player Authenticated as \(GKLocalPlayer.local.displayName)")
+            } else {
+                print("GameCenter Player is NOT Authenticated")
+            }
+        }
+    }
+    
+    func photo() async -> UIImage {
+        do {
+            Task {
+                let image: UIImage = try await GKLocalPlayer.local.loadPhoto(for: .normal)
+                return image
+            }
+        } catch {
+            print("a")
+            return UIImage(systemName: "person.crop.circle.fill")!
+        }
+        return UIImage(systemName: "person.crop.circle.fill")!
+    }
+    
+    private func present(_ viewController: UIViewController) {
+        guard let root = UIApplication.shared.connectedScenes
+            .compactMap({$0 as? UIWindowScene})
+            .flatMap({$0.windows})
+            .first(where: {$0.isKeyWindow})?.rootViewController else { return }
+        
+        var top = root
+        while let presented = top.presentedViewController {
+            top = presented
+        }
+        top.present(viewController, animated: true)
+    }
+    
+    func showLeaderboards() {
+        guard GKLocalPlayer.local.isAuthenticated else {
+            initializeLocalPlayer()
+            return
+        }
+        GKAccessPoint.shared.isActive = true
+        if GKAccessPoint.shared.isActive {
+            GKAccessPoint.shared.trigger(state: .leaderboards, handler: {})
+        }
+    }
+    
+    static let leaderboardID = "com.LinearPractice.keekifami.HighScore"
+    
+    func submitScore(_ value: Int, to leaderboardID: String = GameCenterManager.leaderboardID) {
+        guard GKLocalPlayer.local.isAuthenticated else {
+            initializeLocalPlayer()
+            return
+        }
+        GKLeaderboard.submitScore(value, context: 0, player: GKLocalPlayer.local, leaderboardIDs: [leaderboardID]) { error in
+            if let error = error {
+                print("Error submitting score: \(error.localizedDescription)")
+            } else {
+                print("Score of \(value), to leaderboard \(leaderboardID)")
+            }
+        }
+    }
+
+}

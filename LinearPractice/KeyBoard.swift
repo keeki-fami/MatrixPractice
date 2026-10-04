@@ -56,19 +56,33 @@ struct KeyBoard: View {
                     }
                 }
             }
-            Button(action: {
-                // TODO: 回答処理
-                let result = generator.checkAnswer()
-                handleCheckAnswer(result: result)
-            } ,label: {
+            if generator.ansString.isEmpty {
                 ZStack {
                     Rectangle()
-                        .fill(.blue)
+                        .fill(.gray)
                     Text("submit")
                         .foregroundStyle(.white)
                 }
-            })
-            .buttonStyle(NumberButtonStyle())
+            } else {
+                Button(action: {
+                    // TODO: 回答処理
+                    let result = generator.checkAnswer()
+                    handleCheckAnswer(result: result)
+                } ,label: {
+                    ZStack {
+                        Rectangle()
+                            .fill(.blue)
+                        Text("submit")
+                            .foregroundStyle(.white)
+                    }
+                    .background(Color(red: 217/255, green: 217/255, blue: 217/255))
+                    .foregroundColor(.white)
+                    .clipShape(
+                        RoundedRectangle(cornerRadius: 5)
+                    )
+                })
+                .buttonStyle(NumberButtonStyle())
+            }
         }
         .padding()
         .background(Color(red: 236/255, green: 236/255, blue: 236/255))

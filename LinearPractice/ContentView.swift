@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AppVersionMonitorSwiftUI
+import GameKit
 
 extension Array {
     subscript (safe index: Index) -> Element? {
@@ -21,6 +22,9 @@ struct ContentView: View {
     @AppStorage("failure") var failure: Int = 0
     @AppStorage("success") var success: Int = 0
     @AppStorage("combo") var combo_store: Int = 0
+    @Environment(\.scenePhase) var scenePhase
+    @State var gameCenterManager = GameCenterManager.shared
+    @State var selectedPhase = [0, 1]
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -119,9 +123,19 @@ struct ContentView: View {
                 }
                 
             }
+            .onChange(of: scenePhase) { oldPhase, newPhase in
+                if oldPhase == .background && newPhase == .active {
+                    generator.combo = combo_store
+                    generator.generate()
+                } else if newPhase == .active {
+                    generator.combo = combo_store
+                    GKAccessPoint.shared.isActive = false
+                }
+                print("old: \(oldPhase), new: \(newPhase)")
+            }
             .onAppear() {
                 generator.combo = combo_store
-                generator.generate()
+                gameCenterManager.initializeLocalPlayer()
             }
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing) {
@@ -132,13 +146,27 @@ struct ContentView: View {
                         Text("combo")
                     }
                 }
-                .sharedBackgroundVisibility(.hidden)
+//                .sharedBackgroundVisibility(.hidden)
+//                ToolbarItem(placement: .topBarLeading) {
+//                    NavigationLink(destination: {
+//                        ProfileView()
+//                    }, label: {
+//                        Image(systemName: "info")
+//                    }).tag(0)
+//                }
                 ToolbarItem(placement: .topBarLeading) {
-                    NavigationLink(destination: {
-                        ProfileView()
-                    }, label: {
-                        Image(systemName: "info")
-                    })
+                    Menu("i") {
+                        NavigationLink(destination: {
+                            ProfileView()
+                        }, label: {
+                            Text("Profile")
+                        })
+                        
+                        Button("show Ranking") {
+                            gameCenterManager.showLeaderboards()
+                        }
+                        
+                    }
                 }
             }
         }
