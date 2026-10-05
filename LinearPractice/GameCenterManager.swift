@@ -1,9 +1,9 @@
 //
 //  GameCenterManager.swift
 //  LinearPractice
-//  
+//
 //  Created by keeki-fami on 2026/10/04
-//  
+//
 //
 
 
@@ -18,14 +18,43 @@ final class GameCenterManager: NSObject {
     
     static let shared = GameCenterManager()
     private override init() {}
+    func weeklyDateKey(_ date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        return dateFormatter.string(from: date)
+    }
     
     
     var error: Error?
     private(set) var isAuthenticated = false
     
+//    func checkDuration() async {
+//        var flag = true
+//        do {
+//            let leaderboard = try await GKLeaderboard.loadLeaderboards(
+//                IDs: ["com.LinearPractice.keekifami.WeeklyComboRanking"]
+//            ).first!
+//            
+//            let currentWeeklyRankingDate = weeklyDateKey(leaderboard.startDate!)
+//            if let strData = UserDefaults.standard.string(forKey: "weeklyComboRanking") {
+//                if strData != currentWeeklyRankingDate {
+//                    flag = false
+//                }
+//            }
+//            
+//            if !flag {
+//                UserDefaults.standard.set(currentWeeklyRankingDate, forKey: "weeklyComboRanking")
+//                UserDefaults.standard.set(0, forKey: "combo")
+//            }
+//            
+//            
+//        } catch {
+//            
+//        }
+//    }
+    
     func initializeLocalPlayer() {
         if !isAuthenticated {
-            
             GKLocalPlayer.local.authenticateHandler = { viewController, error in
                 if let viewController = viewController {
                     self.present(viewController)
@@ -82,10 +111,10 @@ final class GameCenterManager: NSObject {
             initializeLocalPlayer()
             return
         }
-//        GKAccessPoint.shared.isActive = true
-//        if GKAccessPoint.shared.isActive {
-            GKAccessPoint.shared.trigger(state: .leaderboards, handler: {})
-//        }
+        //        GKAccessPoint.shared.isActive = true
+        //        if GKAccessPoint.shared.isActive {
+        GKAccessPoint.shared.trigger(state: .leaderboards, handler: {})
+        //        }
     }
     
     static let leaderboardID = "com.LinearPractice.keekifami.HighScore"
@@ -103,5 +132,5 @@ final class GameCenterManager: NSObject {
             }
         }
     }
-
+    
 }
