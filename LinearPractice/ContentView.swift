@@ -141,21 +141,14 @@ struct ContentView: View {
                 ToolbarItem(placement: .topBarTrailing) {
                     HStack(alignment: .bottom) {
                         Text("\(generator.combo)")
-                            .font(.custom("", size: 30))
+                            .font(.custom("", size: 20))
                             .contentTransition(.numericText(value: Double(generator.combo)))
                         Text("combo")
                     }
                 }
-//                .sharedBackgroundVisibility(.hidden)
-//                ToolbarItem(placement: .topBarLeading) {
-//                    NavigationLink(destination: {
-//                        ProfileView()
-//                    }, label: {
-//                        Image(systemName: "info")
-//                    }).tag(0)
-//                }
+                .sharedBackgroundVisibility(.hidden)
                 ToolbarItem(placement: .topBarLeading) {
-                    Menu("i") {
+                    Menu {
                         NavigationLink(destination: {
                             ProfileView()
                         }, label: {
@@ -166,6 +159,8 @@ struct ContentView: View {
                             gameCenterManager.showLeaderboards()
                         }
                         
+                    } label: {
+                        Image(systemName: "info")
                     }
                 }
             }

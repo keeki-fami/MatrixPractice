@@ -24,26 +24,29 @@ final class GameCenterManager: NSObject {
     private(set) var isAuthenticated = false
     
     func initializeLocalPlayer() {
-        GKLocalPlayer.local.authenticateHandler = { viewController, error in
+        if !isAuthenticated {
             
-            if let viewController = viewController {
-                self.present(viewController)
-                print("OK")
-                return
-            }
-            
-            if let error = error {
-                print("error: \(error.localizedDescription)")
-            }
-            
-            self.isAuthenticated = GKLocalPlayer.local.isAuthenticated
-            
-            if self.isAuthenticated {
-//                GKAccessPoint.shared.location = .topTrailing
-                GKAccessPoint.shared.isActive = false
-                print("GameCenter Player Authenticated as \(GKLocalPlayer.local.displayName)")
-            } else {
-                print("GameCenter Player is NOT Authenticated")
+            GKLocalPlayer.local.authenticateHandler = { viewController, error in
+                if let viewController = viewController {
+                    self.present(viewController)
+                    print("OK")
+                    return
+                }
+                
+                if let error = error {
+                    print("error: \(error.localizedDescription)")
+                }
+                
+                self.isAuthenticated = GKLocalPlayer.local.isAuthenticated
+                
+                if self.isAuthenticated {
+                    //                GKAccessPoint.shared.location = .topTrailing
+                    print("isActiveに代入します")
+                    GKAccessPoint.shared.isActive = false
+                    print("GameCenter Player Authenticated as \(GKLocalPlayer.local.displayName)")
+                } else {
+                    print("GameCenter Player is NOT Authenticated")
+                }
             }
         }
     }
@@ -79,10 +82,10 @@ final class GameCenterManager: NSObject {
             initializeLocalPlayer()
             return
         }
-        GKAccessPoint.shared.isActive = true
-        if GKAccessPoint.shared.isActive {
+//        GKAccessPoint.shared.isActive = true
+//        if GKAccessPoint.shared.isActive {
             GKAccessPoint.shared.trigger(state: .leaderboards, handler: {})
-        }
+//        }
     }
     
     static let leaderboardID = "com.LinearPractice.keekifami.HighScore"
