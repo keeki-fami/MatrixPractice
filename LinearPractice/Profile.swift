@@ -43,11 +43,6 @@ struct ProfileView: View {
                     Text("\((failure+success) == 0 ? "0.0%" : String(format: "%.1f", Double(success)*100/Double(failure+success)))%")
                 }
                 Spacer()
-                Button("正解数をランキングに登録する") {
-                    let data = UserDefaults.standard.integer(forKey: "success")
-                    manager.submitScore(data, to: "com.LinearPractice.keekifami.HighScore")
-                }
-                Spacer()
                 Image("InfinityMatrix")
                     .resizable()
                     .scaledToFit()

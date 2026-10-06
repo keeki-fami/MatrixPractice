@@ -28,30 +28,36 @@ final class GameCenterManager: NSObject {
     var error: Error?
     private(set) var isAuthenticated = false
     
-//    func checkDuration() async {
-//        var flag = true
-//        do {
-//            let leaderboard = try await GKLeaderboard.loadLeaderboards(
-//                IDs: ["com.LinearPractice.keekifami.WeeklyComboRanking"]
-//            ).first!
-//            
-//            let currentWeeklyRankingDate = weeklyDateKey(leaderboard.startDate!)
-//            if let strData = UserDefaults.standard.string(forKey: "weeklyComboRanking") {
-//                if strData != currentWeeklyRankingDate {
-//                    flag = false
-//                }
-//            }
-//            
-//            if !flag {
-//                UserDefaults.standard.set(currentWeeklyRankingDate, forKey: "weeklyComboRanking")
-//                UserDefaults.standard.set(0, forKey: "combo")
-//            }
-//            
-//            
-//        } catch {
-//            
-//        }
-//    }
+    func checkDuration() async {
+        var flag = true
+        do {
+            guard let leaderboard = try await GKLeaderboard.loadLeaderboards(
+                IDs: ["com.LinearPractice.keeki.WeeklyComboRanking"]
+            ).first else {
+                return
+            }
+            
+            guard let startDate = leaderboard.startDate else {
+                return
+            }
+            
+            let currentWeeklyRankingDate = weeklyDateKey(startDate)
+            if let strData = UserDefaults.standard.string(forKey: "weeklyComboRanking") {
+                if strData != currentWeeklyRankingDate {
+                    flag = false
+                }
+            }
+            
+            if !flag {
+                UserDefaults.standard.set(currentWeeklyRankingDate, forKey: "weeklyComboRanking")
+                UserDefaults.standard.set(0, forKey: "combo")
+            }
+            
+            
+        } catch {
+            
+        }
+    }
     
     func initializeLocalPlayer() {
         if !isAuthenticated {

@@ -135,14 +135,14 @@ struct ContentView: View {
             }
             .onAppear() {
                 gameCenterManager.initializeLocalPlayer()
-//                if gameCenterManager.isAuthenticated {
-//                    Task {
-//                        await gameCenterManager.checkDuration()
-//                        generator.combo = combo_store
-//                    }
-//                } else {
-//                    generator.combo = combo_store
-//                }
+                if gameCenterManager.isAuthenticated {
+                    Task {
+                        await gameCenterManager.checkDuration()
+                        generator.combo = combo_store
+                    }
+                } else {
+                    generator.combo = combo_store
+                }
                 generator.combo = combo_store
                     
             }
@@ -154,6 +154,8 @@ struct ContentView: View {
                             .contentTransition(.numericText(value: Double(generator.combo)))
                         Text("combo")
                     }
+                    .fixedSize(horizontal: true, vertical: false)
+
                 }
                 .sharedBackgroundVisibility(.hidden)
                 ToolbarItem(placement: .topBarLeading) {
@@ -165,6 +167,8 @@ struct ContentView: View {
                         })
                         
                         Button("show Ranking") {
+                            let data = UserDefaults.standard.integer(forKey: "success")
+                            gameCenterManager.submitScore(data, to: "com.LinearPractice.keekifami.HighScore")
                             gameCenterManager.showLeaderboards()
                         }
                         

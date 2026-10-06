@@ -60,6 +60,9 @@ struct KeyBoard: View {
                 ZStack {
                     Rectangle()
                         .fill(.gray)
+                        .clipShape(
+                            RoundedRectangle(cornerRadius: 5)
+                        )
                     Text("submit")
                         .foregroundStyle(.white)
                 }
@@ -123,6 +126,8 @@ struct KeyBoard: View {
             generator.ansString = ""
 //            generator.checkAnimation.toggle()
         }
+        let combo = UserDefaults.standard.integer(forKey: "combo")
+        GameCenterManager.shared.submitScore(combo, to: "com.LinearPractice.keeki.WeeklyComboRanking")
     }
     
     func handleKeyPress(_ key: KeyType) {
