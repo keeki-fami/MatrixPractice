@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  LinearPractice
 //
-//  Created by 櫻田聖和 on 2026/06/23.
+//  Created by keeki-fami on 2026/06/23.
 //
 
 import SwiftUI
@@ -134,8 +134,17 @@ struct ContentView: View {
                 print("old: \(oldPhase), new: \(newPhase)")
             }
             .onAppear() {
-                generator.combo = combo_store
                 gameCenterManager.initializeLocalPlayer()
+                if gameCenterManager.isAuthenticated {
+                    Task {
+                        await gameCenterManager.checkDuration()
+                        generator.combo = combo_store
+                    }
+                } else {
+                    generator.combo = combo_store
+                }
+                generator.combo = combo_store
+                    
             }
             .toolbar{
                 ToolbarItem(placement: .topBarTrailing) {
@@ -145,17 +154,21 @@ struct ContentView: View {
                             .contentTransition(.numericText(value: Double(generator.combo)))
                         Text("combo")
                     }
+                    .fixedSize(horizontal: true, vertical: false)
+
                 }
                 .sharedBackgroundVisibility(.hidden)
                 ToolbarItem(placement: .topBarLeading) {
                     Menu {
                         NavigationLink(destination: {
-                            ProfileView()
+                            ProfileView(manager: $gameCenterManager)
                         }, label: {
                             Text("Profile")
                         })
                         
                         Button("show Ranking") {
+                            let data = UserDefaults.standard.integer(forKey: "success")
+                            gameCenterManager.submitScore(data, to: "com.LinearPractice.keekifami.HighScore")
                             gameCenterManager.showLeaderboards()
                         }
                         

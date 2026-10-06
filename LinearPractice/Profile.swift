@@ -2,7 +2,7 @@
 //  Profile.swift
 //  LinearPractice
 //
-//  Created by 櫻田聖和 on 2026/06/30.
+//  Created by keeki-fami on 2026/06/30.
 //
 import SwiftUI
 import GameKit
@@ -12,11 +12,11 @@ struct ProfileView: View {
     @AppStorage("success") var success: Int = 0
     @State private var playerImage: UIImage? = nil
     @State private var playerName: String? = nil
+    @Binding var manager: GameCenterManager
     let currentAppVersionString: String? = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String
     var body: some View {
         NavigationStack {
             VStack {
-                
                 if let playerImage = playerImage {
                     Image(uiImage: playerImage)
                         .resizable()
@@ -70,5 +70,5 @@ struct ProfileView: View {
     }
 }
 #Preview {
-    ProfileView()
+//    ProfileView()
 }

@@ -1,6 +1,8 @@
 <h1 align="center"> 無限行列計算 </h1> <br>
 <p align="center">
-    <img alt="無限行列計算" src="./images/matrixpractice.png" title="無限行列計算" width="200">
+    <a href="https://apps.apple.com/jp/app/%E7%84%A1%E9%99%90%E8%A1%8C%E5%88%97%E8%A8%88%E7%AE%97/id6785983550">
+        <img alt="無限行列計算" src="./images/matrixpractice.png" title="無限行列計算" width="200">
+    </a>
 </p>
 
 <p align="center">
@@ -16,6 +18,9 @@ Matrix calculations are an important part of university mathematics, but finding
 Whether you are reviewing for a class, preparing for an exam, or simply trying to improve your calculation skills, you can keep solving problems without running out of exercises.
 
 The app works entirely locally, so you can use it anywhere—even without an internet connection or while traveling.
+
+## Link
+- [App Store](https://apps.apple.com/jp/app/%E7%84%A1%E9%99%90%E8%A1%8C%E5%88%97%E8%A8%88%E7%AE%97/id6785983550)
 
 ## Features
 
