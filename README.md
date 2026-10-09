@@ -63,6 +63,9 @@ If you have ideas for new features, improvements, or bug fixes, feel free to rea
 ## Upcoming Release
 - Add GameCenter
 
+## UI/UX
+- [Figma](https://www.figma.com/design/skQ6LViJ4iBJ6W4emInwxd/%25E7%2584%25A1%25E9%2599%2590%25E8%25A1%258C%25E5%2588%2597%25E8%25A8%2588%25E7%25AE%2597?node-id=0-1&p=f&t=KB1SXbbOXXPj3u5V-0)
+
 ## Feedback
 
 Feedback is always welcome!
