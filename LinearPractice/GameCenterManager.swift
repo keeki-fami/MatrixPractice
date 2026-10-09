@@ -64,7 +64,6 @@ final class GameCenterManager: NSObject {
             GKLocalPlayer.local.authenticateHandler = { viewController, error in
                 if let viewController = viewController {
                     self.present(viewController)
-                    print("OK")
                     return
                 }
                 
@@ -126,6 +125,7 @@ final class GameCenterManager: NSObject {
     static let leaderboardID = "com.LinearPractice.keekifami.HighScore"
     
     func submitScore(_ value: Int, to leaderboardID: String = GameCenterManager.leaderboardID) {
+        print("[submitScore] called \(leaderboardID)")
         guard GKLocalPlayer.local.isAuthenticated else {
             initializeLocalPlayer()
             return
