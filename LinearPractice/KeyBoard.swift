@@ -113,6 +113,7 @@ struct KeyBoard: View {
     func handleCheckAnswer(result: Bool) {
         generator.ansString = ""
         if result {
+            // 正解したときに行う処理
             withAnimation {
                 generator.combo += 1
             }
@@ -120,14 +121,18 @@ struct KeyBoard: View {
             success += 1
             generator.generate()
         } else {
+            // 不正解になったときに行う処理
+            // コンボをリセットする前に、コンボを送信する。
+            let combo = UserDefaults.standard.integer(forKey: "combo")
+            GameCenterManager.shared.submitScore(combo, to: "com.LinearPractice.keeki.WeeklyComboRanking")
+            
             failure += 1
             combo_store = 0
             generator.combo = 0
             generator.ansString = ""
 //            generator.checkAnimation.toggle()
+            
         }
-        let combo = UserDefaults.standard.integer(forKey: "combo")
-        GameCenterManager.shared.submitScore(combo, to: "com.LinearPractice.keeki.WeeklyComboRanking")
     }
     
     func handleKeyPress(_ key: KeyType) {

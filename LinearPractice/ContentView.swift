@@ -101,12 +101,7 @@ struct ContentView: View {
                     if let url = URL(string: "https://apps.apple.com/jp/app/%E7%84%A1%E9%99%90%E8%A1%8C%E5%88%97%E8%A8%88%E7%AE%97/id6785983550") {
                         if UIApplication.shared.canOpenURL(url) {
                             UIApplication.shared.open(url, options: [:], completionHandler: nil)
-                            print("成功")
-                        } else {
-                            print("失敗1")
                         }
-                    } else {
-                        print("失敗2")
                     }
                 } label: {
                     Text("AppStoreに移動")
@@ -131,7 +126,12 @@ struct ContentView: View {
                     generator.combo = combo_store
                     GKAccessPoint.shared.isActive = false
                 }
-                print("old: \(oldPhase), new: \(newPhase)")
+                
+                // active以外の状態に遷移する時、コンボを送信する
+                if oldPhase == .active && newPhase != .active {
+                    let comboNumber = UserDefaults.standard.integer(forKey: "combo")
+                    gameCenterManager.submitScore(comboNumber, to: "com.LinearPractice.keekifami.WeeklyComboRanking")
+                }
             }
             .onAppear() {
                 gameCenterManager.initializeLocalPlayer()
@@ -175,6 +175,8 @@ struct ContentView: View {
                     } primaryAction: {
                         let data = UserDefaults.standard.integer(forKey: "success")
                         gameCenterManager.submitScore(data, to: "com.LinearPractice.keekifami.HighScore")
+                        let comboNumber = UserDefaults.standard.integer(forKey: "combo")
+                        gameCenterManager.submitScore(comboNumber, to: "com.LinearPractice.keekifami.WeeklyComboRanking")
                     }
                 }
             }
