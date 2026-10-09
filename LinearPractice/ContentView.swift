@@ -167,13 +167,14 @@ struct ContentView: View {
                         })
                         
                         Button("show Ranking") {
-                            let data = UserDefaults.standard.integer(forKey: "success")
-                            gameCenterManager.submitScore(data, to: "com.LinearPractice.keekifami.HighScore")
                             gameCenterManager.showLeaderboards()
                         }
                         
                     } label: {
                         Image(systemName: "info")
+                    } primaryAction: {
+                        let data = UserDefaults.standard.integer(forKey: "success")
+                        gameCenterManager.submitScore(data, to: "com.LinearPractice.keekifami.HighScore")
                     }
                 }
             }
