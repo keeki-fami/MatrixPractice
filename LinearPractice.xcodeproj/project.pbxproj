@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		9497C9C33072321000D2EBF7 /* GameCenterResources.gamekit in Resources */ = {isa = PBXBuildFile; fileRef = 9497C9C23072321000D2EBF7 /* GameCenterResources.gamekit */; };
+		949878EA307A2AE9000F4297 /* NumberPad in Frameworks */ = {isa = PBXBuildFile; productRef = 949878E9307A2AE9000F4297 /* NumberPad */; };
 		94AE78742FF8FAD100FF3610 /* AppVersionMonitorSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 94AE78732FF8FAD100FF3610 /* AppVersionMonitorSwiftUI */; };
 /* End PBXBuildFile section */
 
@@ -30,6 +31,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				94AE78742FF8FAD100FF3610 /* AppVersionMonitorSwiftUI in Frameworks */,
+				949878EA307A2AE9000F4297 /* NumberPad in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +76,7 @@
 			name = LinearPractice;
 			packageProductDependencies = (
 				94AE78732FF8FAD100FF3610 /* AppVersionMonitorSwiftUI */,
+				949878E9307A2AE9000F4297 /* NumberPad */,
 			);
 			productName = LinearPractice;
 			productReference = 94A12F9F2FE98E1E00CB341C /* LinearPractice.app */;
@@ -105,6 +108,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				94AE78722FF8FAD100FF3610 /* XCRemoteSwiftPackageReference "AppVersionMonitorSwiftUI" */,
+				949878E8307A2AE9000F4297 /* XCRemoteSwiftPackageReference "NumberPadView" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 94A12FA02FE98E1E00CB341C /* Products */;
@@ -359,6 +363,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		949878E8307A2AE9000F4297 /* XCRemoteSwiftPackageReference "NumberPadView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/keeki-fami/NumberPadView";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.0;
+			};
+		};
 		94AE78722FF8FAD100FF3610 /* XCRemoteSwiftPackageReference "AppVersionMonitorSwiftUI" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SNQ-2001/AppVersionMonitorSwiftUI";
@@ -370,6 +382,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		949878E9307A2AE9000F4297 /* NumberPad */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 949878E8307A2AE9000F4297 /* XCRemoteSwiftPackageReference "NumberPadView" */;
+			productName = NumberPad;
+		};
 		94AE78732FF8FAD100FF3610 /* AppVersionMonitorSwiftUI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 94AE78722FF8FAD100FF3610 /* XCRemoteSwiftPackageReference "AppVersionMonitorSwiftUI" */;
