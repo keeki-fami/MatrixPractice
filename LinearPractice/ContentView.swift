@@ -9,6 +9,7 @@ import SwiftUI
 import AppVersionMonitorSwiftUI
 import GameKit
 import NumberPad
+import PencilKit
 
 extension Array {
     subscript (safe index: Index) -> Element? {
@@ -18,6 +19,7 @@ extension Array {
 
 struct ContentView: View {
     @State var generator = MatrixGenerator()
+    @State private var memoView = PKCanvasView()
     @State var text = ""
     @State var updateAlert = false
     @AppStorage("failure") var failure: Int = 0
@@ -26,6 +28,7 @@ struct ContentView: View {
     @Environment(\.scenePhase) var scenePhase
     @State var gameCenterManager = GameCenterManager.shared
     @State var selectedPhase = [0, 1]
+    @State private var isKeyboard = true
     var body: some View {
         NavigationStack {
             VStack(spacing: 0) {
@@ -84,13 +87,28 @@ struct ContentView: View {
                             
                         }
                     }
+                    .overlay(alignment: .bottomTrailing) {
+                        Button(action: {
+                            isKeyboard.toggle()
+                        }, label: {
+                            Circle()
+                                .fill(Color.gray)
+                                .frame(width: 40, height: 40)
+                        })
+                        .padding(.trailing)
+                    }
+                    
                 }
                 .transition(.opacity)
                 
-                NumberPadView("submit", text: $generator.ansString, action: {
-                    let result = generator.checkAnswer()
-                    handleCheckAnswer(result: result)
-                })
+                if isKeyboard {
+                    NumberPadView("submit", text: $generator.ansString, action: {
+                        let result = generator.checkAnswer()
+                        handleCheckAnswer(result: result)
+                    })
+                } else {
+                    MemoView(memoView: $memoView, isKeyboard: $isKeyboard)
+                }
 //                KeyBoard(generator: generator)
             }
             .alert(
