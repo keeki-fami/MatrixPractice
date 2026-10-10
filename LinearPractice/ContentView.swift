@@ -8,6 +8,7 @@
 import SwiftUI
 import AppVersionMonitorSwiftUI
 import GameKit
+import NumberPad
 
 extension Array {
     subscript (safe index: Index) -> Element? {
@@ -16,7 +17,7 @@ extension Array {
 }
 
 struct ContentView: View {
-    var generator = MatrixGenerator()
+    @State var generator = MatrixGenerator()
     @State var text = ""
     @State var updateAlert = false
     @AppStorage("failure") var failure: Int = 0
@@ -86,7 +87,11 @@ struct ContentView: View {
                 }
                 .transition(.opacity)
                 
-                KeyBoard(generator: generator)
+                NumberPadView("submit", text: $generator.ansString, action: {
+                    let result = generator.checkAnswer()
+                    handleCheckAnswer(result: result)
+                })
+//                KeyBoard(generator: generator)
             }
             .alert(
                 "最新版があります",
@@ -191,6 +196,31 @@ struct ContentView: View {
             }
         }
         return Text(op)
+    }
+    
+    func handleCheckAnswer(result: Bool) {
+        generator.ansString = ""
+        if result {
+            // 正解したときに行う処理
+            withAnimation {
+                generator.combo += 1
+            }
+            combo_store = generator.combo
+            success += 1
+            generator.generate()
+        } else {
+            // 不正解になったときに行う処理
+            // コンボをリセットする前に、コンボを送信する。
+            let combo = UserDefaults.standard.integer(forKey: "combo")
+            GameCenterManager.shared.submitScore(combo, to: "com.LinearPractice.keeki.WeeklyComboRanking")
+            
+            failure += 1
+            combo_store = 0
+            generator.combo = 0
+            generator.ansString = ""
+//            generator.checkAnimation.toggle()
+            
+        }
     }
 }
 
